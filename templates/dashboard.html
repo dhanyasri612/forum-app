@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <form method="post" action="{{ url_for('post') }}">
+        <textarea name="content" placeholder="What's on your mind?" required></textarea>
+        <button type="submit">Post</button>
+    </form>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>{{ post.user }}</strong>: {{ post.content }}
+                <form method="post" action="{{ url_for('like', post_id=loop.index0) }}" style="display: inline;">
+                    <button type="submit">Like ({{ post.likes }})</button>
+                </form>
+                <form method="post" action="{{ url_for('delete', post_id=loop.index0) }}" style="display: inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <div style="text-align: center;">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>
+
